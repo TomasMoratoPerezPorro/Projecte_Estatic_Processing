@@ -1,3 +1,7 @@
+/// Projecte 1 Tomàs Morató Pérez-Porro
+// CITM 05/01/2020
+
+
 import controlP5.*;
 
 int maxN=10;
@@ -26,10 +30,13 @@ int desplasament;
 boolean resetGrid;
 boolean fondo;
 boolean colorDots;
+boolean randomSize;
+boolean allowrandom;
 
 
 void setup() {
-  size(1080, 1080);
+  //Aquest Sketch adapta la mida del grid base al tamany del canvas.
+  size(1080, 720);
   grid = new Grid(5, 5);
   pausa=false;
   cp5 = new ControlP5(this);
@@ -89,6 +96,8 @@ void setup() {
     .setPosition(width-180, 330)
     .setSize(128, 14)
     ;
+    
+ /// Per als effectes de punts es pot canviar el valor de columnes i files màxim per a omplir tot el canvas
 
   cp5.addSlider("sliderCol")
     .setRange(2, 20)
@@ -109,6 +118,18 @@ void setup() {
     .setValue(20)
     .setPosition(width-180, 470)
     .setSize(128, 14)
+    ;
+    
+  cp5.addButton("randomsize")
+    .setValue(0)
+    .setPosition(width-180, 500)
+    .setSize(30, 14)
+    ;
+    
+  cp5.addToggle("allowrandom")
+    .setPosition(width-130, 500)
+    .setSize(14, 14)
+    .setValue(false)
     ;
 
   cp5.addSlider("vermellDOT")
@@ -153,8 +174,10 @@ void setup() {
   dibuixaGUI = false;
   cp5.setAutoDraw(false);
   guardaImatge = false;
+  randomSize=false;
   resetGrid = false;
   dibuixaLinies = false;
+  
 }
 
 void draw() {
@@ -177,8 +200,12 @@ void draw() {
   if (randomitzar) {
     grid.addNoiseY(desplasament);
   }
+  
+  if(allowrandom==false){
+    grid.changesize(size);
+  }
 
-  grid.changesize(size);
+  
 
 
 
@@ -192,6 +219,12 @@ void draw() {
     saveFrame("saved/img_####.png");
     println("Pressed save");
     guardaImatge = false;
+  }
+  
+  if (randomSize) {
+    grid.changesizeRand(30);
+    println("Pressed randomise if");
+    randomSize = false;
   }
 
   if (resetGrid) {
@@ -262,6 +295,11 @@ void soroll(int valor) {
 
 void guarda(int valor) {
   guardaImatge = true;
+}
+
+void randomsize(int valor) {
+  println("Pressed randomise");
+  randomSize = true;
 }
 
 void reset(int valor) {

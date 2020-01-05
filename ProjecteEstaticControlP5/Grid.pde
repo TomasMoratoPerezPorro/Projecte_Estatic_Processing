@@ -88,7 +88,7 @@ class Grid {
   }
 
   void addNoiseY(int val) {
-    for (int i = 0; i < dots.size()-1; i++) {
+    for (int i = 0; i < dots.size(); i++) {
       Dot part1 = this.dots.get(i);
       part1.posicio.y=part1.posicio.y+random(-val, val);
       while (part1.posicio.y>height-part1.tamany) {
